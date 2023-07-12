@@ -1,0 +1,91 @@
+
+    .container-form {
+   
+      width: 612px;
+      // height: 772px;
+     
+      border-radius: 10px;
+      input{
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .email-text {
+        width: 503px;
+        height: 41px;
+  
+        background: #ffffff;
+        border: 2px solid #148c8c;
+        border-radius: 5px;
+        padding: 0 10px;
+  
+        &:focus {
+          outline-color: #394362;
+        }
+      }
+      .name-container {
+        gap: 45px;
+        .name-container > input {
+          background-color: red;
+        }
+      }
+      .create-text {
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 28px;
+        line-height: 33px;
+        color: #000000;
+      }
+  
+      .first-last {
+      
+        width: 238px;
+        height: 41px;
+        background: #ffffff;
+        border: 2px solid #148c8c;
+        border-radius: 5px;
+        padding: 0 10px;
+      
+      }
+      .signup-btn {
+        width: 157px;
+        height: 41px;
+        background: #148c8c;
+        border-radius: 10px;
+     
+       margin-left: 173px;
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 21px;
+  
+        color: #ffffff;
+      }
+      .haveAccount-text {
+        color: #000000;
+      }
+  
+      .google-login-button {
+        background-color: #3f3d56;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 12px 24px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+      }
+    
+      .google-login-button:hover {
+        background-color: #2b7de9;
+      }
+    
+      .google-login-button:focus {
+        outline: none;
+      }
+     
+    }
+
+  /* Rectangle 4 */
+  

@@ -1,0 +1,28 @@
+
+
+.cardContainer {
+  min-height: 400px;
+  max-width: 300px;
+
+  font-family: 'Roboto Condensed', sans-serif;
+  // background: #666988 !important;
+  .imageCard {
+    max-height: 188px;
+    cursor: pointer;
+  }
+  .itemName {
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+  }
+  .descriptionCallout {
+    max-height: 80px; /* Adjust the height as per your requirement */
+    overflow: hidden;
+  }
+
+  .descriptionContent {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

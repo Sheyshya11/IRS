@@ -1,0 +1,31 @@
+.loading {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .imageContainer {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+  }
+  .loadingName {
+    color: rgb(187, 187, 187);
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+  }
+}
+.loader {
+  position: fixed;
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  top: 40%;
+  left: 46%;
+}

@@ -1,0 +1,27 @@
+/* INVENTORY REQUISITION SYSTEM */
+
+.container-header {
+  height: 101px;
+  background: #2b2d40;
+  padding: 30px;
+  .title {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    /* identical to box height */
+    letter-spacing: 0.08em;
+    &:hover {
+      text-decoration: none;
+    }
+
+    color: #ffffff;
+  }
+  .logout {
+    // color: #3848e;
+    color: black;
+    border-radius: 4px;
+    border: none;
+  }
+}

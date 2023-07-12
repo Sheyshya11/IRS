@@ -1,0 +1,89 @@
+.login-container {
+  width: 612px;
+  height: 772px;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  position: absolute;
+  left: calc(50% - 612px / 2);
+  bottom: 126px;
+
+  .login-header {
+    width: 612px;
+    height: 61px;
+    background: #148c8c;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px 4px 0px 0px;
+    direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .login-text {
+      font-family: "Roboto", sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      align-items: center;
+      font-size: 24px;
+      display: flex;
+    }
+  }
+
+  .login-image {
+    width: 308px;
+    height: 157px;
+  }
+  .email-text {
+    width: 282px;
+    height: 41px;
+    background: #ffffff;
+    border: 2px solid #148c8c;
+    border-radius: 4px;
+    padding: 0 10px;
+
+    &:focus {
+      outline-color: #394362;
+    }
+  }
+  .login-btn {
+    background-color: #148c8c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 0px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .google-login-button {
+    background-color: #3f3d56;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .google-login-button:hover {
+    background-color: #2b7de9;
+  }
+
+  .google-login-button:focus {
+    outline: none;
+  }
+
+  .line-with-text {
+    position: relative;
+    text-align: center;
+    line-height: 0.1em;
+    margin: 20px 0;
+  }
+  
+
+  
+}
