@@ -32,6 +32,10 @@ const Setting = () => {
     },
   ];
 
+  const [form, setForm] = useState({
+ 
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submitted");

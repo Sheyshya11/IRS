@@ -27,15 +27,13 @@ const Login = () => {
   const [emptyEmailError, setemptyEmailError] = useState(false);
   const [emptyPasswordError, setemptyPasswordError] = useState(false);
   const [invalidEmailError, setInvalidEmailError] = useState(false);
-  let emailError, passwordError, invalidEmail, loginError;
+  let emailError, passwordError, invalidEmail;
   let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-
-  
 
   const handleFormFieldChange = (fieldName, e) => {
     setForm({ ...form, [fieldName]: e.target.value });
@@ -72,7 +70,7 @@ const Login = () => {
 
       if (originalPromiseResult) {
         console.log("im logged");
-        navigate("/home");
+        navigate("/");
       }
 
       // handle result here
@@ -98,9 +96,11 @@ const Login = () => {
         loginWithGoogle(accessToken)
       ).unwrap();
 
-      if (originalPromiseResult) {
+      if (originalPromiseResult?.passwordExist) {
         console.log("im logged");
-        navigate("/home");
+        navigate("/");
+      } else {
+        navigate("/createPassword");
       }
     } catch (rejectedValueOrSerializedError) {
       if (rejectedValueOrSerializedError === 401) {
@@ -109,7 +109,7 @@ const Login = () => {
         notify("User not found");
       }
 
-      navigate("/");
+      navigate("/login");
     }
   }
 
@@ -169,7 +169,7 @@ const Login = () => {
           <EuiText size="s">
             <EuiLink
               color="text"
-              style={{ fontFamily: "Roboto", fontWeight: '700' }}
+              style={{ fontFamily: "Roboto", fontWeight: "700" }}
               href="http://www.elastic.co"
               external
             >
@@ -203,7 +203,7 @@ const Login = () => {
           <EuiText size="s">
             <EuiLink
               color="success"
-              style={{ fontFamily: "Roboto", fontWeight:'700' }}
+              style={{ fontFamily: "Roboto", fontWeight: "700" }}
               href="http://localhost:3000/signup"
               external
             >

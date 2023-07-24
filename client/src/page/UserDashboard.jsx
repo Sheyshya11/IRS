@@ -20,38 +20,49 @@ import {
 } from "@elastic/eui";
 import "../sass/userDashboard.scss";
 
-const UserDashboard = ({ setFilteredItems, filteredItems }) => {
-  const { items, loading, itemCount } = useSelector((state) => state.item);
+const UserDashboard = ({ setFilteredItems, filteredItems, setLoad, load }) => {
+  const { items, loading, itemCount, itemTaken } = useSelector(
+    (state) => state.item
+  );
   const [searchField, setSearchField] = useState("");
-
+  const [initialLoad, setInitialLoad] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSearchChange = (e) => {
     const searchValue = e.target.value;
+    setFilteredItems([]);
     setSearchField(searchValue);
-
-    const filteredItems = items.filter((item) => {
-      const itemName = item.name.toLowerCase();
-      const searchValueLower = searchValue.toLowerCase();
-      return itemName.includes(searchValueLower);
-    });
-
-    setFilteredItems(filteredItems);
   };
 
   useEffect(() => {
-    if (searchField == "") {
-      setFilteredItems(items);
-    }
+    const settime = setTimeout(() => {
+      setLoad(false);
+      const filteredItems = items.filter((item) => {
+        const itemName = item.name.toLowerCase().trim();
+        const searchValueLower = searchField.toLowerCase().trim();
+        return itemName.includes(searchValueLower);
+      });
+
+      setFilteredItems(filteredItems);
+    }, 500);
+
+    return () => {
+      if (initialLoad) {
+        setInitialLoad(false);
+      } else {
+        setLoad(true);
+      }
+      clearTimeout(settime);
+    };
   }, [searchField]);
 
-  const handleNavigate = (id) => {
-    navigate(`/itemDetails/${id}`);
+  const handleNavigate = (id, available, count) => {
+    navigate(`/itemDetails/${id}`, { state: { available, count } });
   };
-  const refineUsername = (username) => {
+  const capitalizeItemNameFirstChar = (username) => {
     var firstChar = username.charAt(0).toUpperCase();
-    var remainingChars = username.slice(1).toLowerCase();
+    var remainingChars = username.slice(1);
 
     return firstChar + remainingChars;
   };
@@ -73,6 +84,12 @@ const UserDashboard = ({ setFilteredItems, filteredItems }) => {
       </EuiFlexItem>
 
       <EuiHorizontalRule margin="s" />
+      {load && (
+        <EuiEmptyPrompt
+          className="loading"
+          icon={<EuiLoadingSpinner size="xl" />}
+        />
+      )}
 
       {loading ? (
         <EuiEmptyPrompt
@@ -88,26 +105,18 @@ const UserDashboard = ({ setFilteredItems, filteredItems }) => {
               textAlign="left"
               image={
                 <div>
-                  <Link to={`/itemDetails/${item?.name}`}>
-                    <img
-                      className="imageCard"
-                      src={item?.image.url}
-                      alt="Nature"
-                    />
-                  </Link>
+                  <img
+                    className="imageCard"
+                    src={item?.image.url}
+                    alt="Nature"
+                  />
                 </div>
               }
               title={
                 <>
-                  <Link
-                    to={`/itemDetails/${item?._id}`}
-                    style={{ color: "inherit", textDecoration: "none" }}
-                  >
-                    <EuiText size="l" className="itemName">
-                      {" "}
-                      {`${refineUsername(item?.name)}`}
-                    </EuiText>
-                  </Link>
+                  <EuiText size="l" className="itemName">
+                    {`${capitalizeItemNameFirstChar(item?.name)}`}
+                  </EuiText>
                 </>
               }
               description={
@@ -122,13 +131,26 @@ const UserDashboard = ({ setFilteredItems, filteredItems }) => {
                   </EuiCallOut>
                 </>
               }
-              onClick={() => handleNavigate(item?.name)}
+              onClick={() =>
+                handleNavigate(
+                  item?.name,
+
+                  itemTaken[item?.name]
+                    ? itemCount[item?.name] - itemTaken[item?.name]
+                    : itemCount[item?.name],
+                  itemCount[item?.name]
+                )
+              }
               footer={
                 <>
                   <EuiBadge
                     style={{ fontSize: "16px" }}
                     color="success"
-                  >{`Available`}</EuiBadge>
+                  >{`Available: ${
+                    itemTaken[item?.name]
+                      ? itemCount[item?.name] - itemTaken[item?.name]
+                      : itemCount[item?.name]
+                  }`}</EuiBadge>
                   <EuiBadge
                     style={{ fontSize: "16px" }}
                     color="danger"
@@ -144,27 +166,3 @@ const UserDashboard = ({ setFilteredItems, filteredItems }) => {
 };
 
 export default UserDashboard;
-
-//   <EuiFlexGroup
-//     style={{ height: "30vh" }}
-//     alignItems="center"
-//     justifyContent="center"
-//   >
-//     <EuiFlexItem grow={false}>
-//       <EuiFlexGroup>
-//         <EuiFlexItem>
-//           <EuiEmptyPrompt
-//             iconType="managementApp"
-//             title={<h2>No items </h2>}
-//             body={<></>}
-//             actions={
-//               <EuiButton onClick={navigateHome} color="primary" fill>
-//                 Go to Home
-//               </EuiButton>
-//             }
-//           />
-//         </EuiFlexItem>
-//       </EuiFlexGroup>
-//     </EuiFlexItem>
-//   </EuiFlexGroup>
-// )

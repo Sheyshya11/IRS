@@ -19,21 +19,34 @@ import {
   EuiLink,
 } from "@elastic/eui";
 import { setReset } from "../redux/dashboardSlice";
-
+import { fetchALlItems } from "../redux/ItemSlice";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [items, setItems] = useState([]);
 
   const token = Cookie.get("token");
   const user = jwt_decode(token);
-
 
   const checkPass = () => {
     if (!user?.passwordExists) {
       navigate("/createPassword");
     }
   };
+
+  const getItems = async () => {
+    try {
+      const response = await dispatch(fetchALlItems());
+      setItems(response.payload);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
+  useEffect(() => {
+    getItems();
+  }, []);
 
   useEffect(() => {
     checkPass();
@@ -50,8 +63,7 @@ const Home = () => {
     }
   }, []);
 
-
-console.log(user.passwordExists)
+  console.log(user.passwordExists);
   return (
     <>
       {
@@ -101,7 +113,7 @@ console.log(user.passwordExists)
           <EuiSpacer />
           <EuiFlexGroup justifyContent="spaceAround" gutterSize={0}>
             <EuiFlexItem grow={false}>
-              <EuiText className="home-number">20</EuiText>
+              <EuiText className="home-number">{items.length}</EuiText>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiText className="home-number">20</EuiText>
@@ -110,6 +122,8 @@ console.log(user.passwordExists)
               <EuiText className="home-number">20</EuiText>
             </EuiFlexItem>
           </EuiFlexGroup>
+          <EuiSpacer />
+          <EuiSpacer />
           <Footer />
         </EuiFlexGroup>
       }

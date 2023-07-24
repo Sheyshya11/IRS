@@ -22,13 +22,19 @@ function Dashboard() {
   const fetchref = useRef(false);
   const status = useSelector((state) => state.dashboard);
   const [isAdmin, setIsAdmin] = useState(false);
-  const { items, loading } = useSelector((state) => state.item);
+  const { items } = useSelector((state) => state.item);
   const [filteredItems, setFilteredItems] = useState([]);
+  const [load, setLoad] = useState(false);
+  const [searchField, setSearchField] = useState("");
+  const [initialLoad, setInitialLoad] = useState(true);
+
+
+  const token = Cookies.get("token");
+  const user = jwt_decode(token);
+
 
   const checkAdmin = () => {
-    const token = Cookies.get("token");
-
-    const user = jwt_decode(token);
+  
 
     if (user.roles == "Admin") {
       setIsAdmin(true);
@@ -58,8 +64,8 @@ function Dashboard() {
 
   useEffect(() => {
     getItems();
+    dispatch(setDashboard());
   }, []);
-  console.log(filteredItems);
 
   // fetch user info
   const fetchUser = async () => {
@@ -98,11 +104,14 @@ function Dashboard() {
         size="m"
         fill
       >
-        Item request page
+        Request page
       </EuiButton>
     ),
   ];
 
+  useEffect(() => {
+    setLoad(false);
+  }, []);
   return (
     <EuiPageTemplate restrictWidth={"75%"} grow={true}>
       <EuiPageTemplate.Header
@@ -112,7 +121,7 @@ function Dashboard() {
                 {
                   text: "Profile",
                   onClick: () => {
-                    navigate("/profile");
+                    navigate(`/profile/${user.userId}`);
                   },
                 },
                 {
@@ -139,7 +148,7 @@ function Dashboard() {
                 {
                   text: "Profile",
                   onClick: () => {
-                    navigate("/profile");
+                    navigate(`/profile/${user.userId}`);
                   },
                 },
                 {
@@ -172,6 +181,12 @@ function Dashboard() {
               <UserDashboard
                 setFilteredItems={setFilteredItems}
                 filteredItems={filteredItems}
+                setLoad={setLoad}
+                load={load}
+                setSearchField={setSearchField}
+                searchField={searchField}
+                initialLoad={initialLoad}
+                setInitialLoad={setInitialLoad}
               />
             </>
           )}

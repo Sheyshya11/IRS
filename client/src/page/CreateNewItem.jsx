@@ -38,11 +38,12 @@ const CreateNewItem = () => {
   const { loading } = useSelector((state) => state.item);
 
   const [stock, setStock] = useState(false);
-  const [quantity, setQuantity] = useState(null);
+  const [quantity, setQuantity] = useState(0);
   const [allItems, setItem] = useState([]);
   const [base64Image, setBase64Image] = useState("");
   const filePickerRef = useRef();
   const removeFilePickerId = useGeneratedHtmlId({ prefix: "removeFilePicker" });
+  const [serialNumbers, setSerialNumbers] = useState([]);
 
   const [form, setForm] = useState({
     name: "",
@@ -119,9 +120,9 @@ const CreateNewItem = () => {
   const handleStock = () => {
     if (quantity > 0) {
       setStock(true);
+      setItem([]);
     }
   };
-  console.log(allItems);
 
   useEffect(() => {
     const token = Cookie.get("token");
@@ -138,14 +139,33 @@ const CreateNewItem = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const { name, image, quality, description } = form;
+      const newItems = serialNumbers.map((item) => {
+        return {
+          name,
+          image,
+          quantity,
+          quality,
+          description,
+          ssid: item,
+        };
+      });
+
       dispatch(setLoading(true));
-      const response = await dispatch(createItem({ items: allItems }));
-      dispatch(setLoading(false));
-      console.log(response);
+      if (serialNumbers?.length) {
+        const response = await dispatch(createItem({ items: newItems }));
+        console.log(response);
+        dispatch(setLoading(false));
+        navigate("/dash");
+      } else {
+        dispatch(setLoading(false));
+        alert("Input SSID");
+      }
     } catch (error) {
       console.log({ error });
     }
   };
+  console.log(allItems);
 
   // custom button
   const customButtons = [
@@ -154,6 +174,7 @@ const CreateNewItem = () => {
     </EuiButton>,
   ];
 
+  console.log(serialNumbers);
   //options
   const options = [
     { value: "High", text: "High" },
@@ -311,9 +332,9 @@ const CreateNewItem = () => {
           {stock && (
             <StockPage
               handleCancel={setStock}
-              form={form}
-              setItem={setItem}
               count={quantity}
+              setSerialNumbers={setSerialNumbers}
+              serialNumbers={serialNumbers}
             />
           )}
         </EuiPageTemplate.Section>
@@ -323,7 +344,11 @@ const CreateNewItem = () => {
           paddingSize="xl"
           style={{ background: "#2b2d40" }}
         >
-          <EuiText className="footer-text" textAlign="center">
+          <EuiText
+            style={{ fontWeight: "700" }}
+            className="footer-text"
+            textAlign="center"
+          >
             &copy; DESIGNED BY SUBHAM SHRESTHA
           </EuiText>
         </EuiPageTemplate.BottomBar>

@@ -98,16 +98,22 @@ module.exports.updateUser = async (req, res) => {
 
     if (userId) {
       const body = req.body;
-
-      // need to validate the document fields
+      const user = await userModel.findOne({ _id: userId }).lean();
+      const passwordCheck = await bcrypt.compare(body.oldPass, user.password);
+      if (!passwordCheck) {
+        return res.status(400).send("Password dont match");
+      }
+      const hashedPassword = await bcrypt.hash(body.newPass, 10);
       const updateUser = await userModel.findOneAndUpdate(
         { _id: userId },
 
         {
           email: body.email,
           username: body.username,
-          password: body.password,
-        }
+          password: hashedPassword,
+          department: body.department,
+        },
+        { new: true }
       );
       if (!updateUser) {
         return res.status(500).send({ msg: "Error while updating" });

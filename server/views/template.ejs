@@ -7,7 +7,7 @@
 
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: "Arial", sans-serif;
         line-height: 1.6;
       }
 
@@ -15,6 +15,9 @@
         max-width: 600px;
         margin: 0 auto;
         padding: 20px;
+        border: 2px solid #eee;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+        font-size: 20px;
       }
 
       .header {
@@ -37,33 +40,24 @@
 
       .footer {
         font-weight: 500;
-        margin-top: 20px;
+        margin-top: 25px;
         text-align: left;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <!-- <div class="header">
-      
- 
-      </div> -->
-
-
-      <p style="font-weight: 500"><b>Dear Subham Shrestha,</b></p>
-      <br />
+      <p style="font-weight: 500"><b>Dear <%=username%>,</b></p>
 
       <p>
         We hope this email finds you well. We are pleased to inform you that
         your recent request has been approved. Congratulations!
       </p>
-      <br />
 
       <p>
         Please verify the requested items in the given attachment and print out
         the form for further aquisition processing.
       </p>
-      <br/>
 
       <p>
         If you have any questions or require further assistance regarding the
@@ -71,13 +65,16 @@
         support team at <b>subhamvairav@gmail.com</b>.
       </p>
 
-
       <div class="footer">
-        <p><b>Best regards,</b></p>
-        <p>Subham Shrestha</p>
-        <p>Admin</p>
-        <p>Vairav Technology</p> 
-        <img style="width: 195px; height: 240px;" src="https://vairav.net/assets/backend/uploads/mascot_logo_original@2x%202.png" alt="">
+        <div><b>Best regards,</b></div>
+        <div>Subham Shrestha</div>
+        <div>Admin</div>
+        <div>Vairav Technology</div>
+        <img
+          style="width: 175px; height: 200px"
+          src="https://vairav.net/assets/backend/uploads/mascot_logo_original@2x%202.png"
+          alt=""
+        />
       </div>
     </div>
   </body>

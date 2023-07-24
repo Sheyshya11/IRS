@@ -29,7 +29,7 @@ const Header = ({ user }) => {
 
       await dispatch(logout());
     
-      navigate("/");
+      navigate("/login");
    
     } catch (error) {
       console.log({ error });
@@ -46,7 +46,7 @@ const Header = ({ user }) => {
           {/* <EuiText className="title">INVENTORY REQUISTION SYSTEM</EuiText> */}
           <EuiLink
             className="title"
-            href="http://localhost:3000/home"
+            href="http://localhost:3000/"
             onClick={() => {}}
           >
             INVENTORY REQUISTION SYSTEM

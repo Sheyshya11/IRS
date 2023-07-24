@@ -75,24 +75,25 @@ console.log(state)
     if (startDate?._d < presentDate) {
       return alert("Past date cant be selected");
     }
-    if(form.RequiredUnit > state.item[0].quantity ){
+    if(form.RequiredUnit > state.available ){
       setStockError(true)
       return
     }
 
     const submissionInfo = {
-      itemId: id,
+      itemName: id,
       Department: state.decodedUser.department,
       Requester: state.decodedUser.firstName + " " + state.decodedUser.lastName,
       RequestedItem: state.item[0]?.name,
       DeliveryDate: startDate._i,
       Purpose: form.Purpose,
       RequiredUnit: form.RequiredUnit,
+      image:state.item[0]?.image.url
     };
     setSubmitting(true);
     await dispatch(requestItem(submissionInfo));
     setSubmitting(false);
-
+    navigate(-1)
     try {
     } catch (error) {
       console.log({ error });

@@ -1,74 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiText,
-  EuiImage,
   EuiFieldText,
   EuiForm,
-  EuiSpacer,
-  EuiFormRow,
   EuiButton,
-  EuiFieldNumber,
-  EuiSelect,
-  EuiFilePicker,
-  EuiTextArea,
-  EuiIcon,
-  EuiHorizontalRule,
   EuiEmptyPrompt,
-  EuiLink,
-  EuiTitle,
 } from "@elastic/eui";
 import "../sass/stockPage.scss";
 
-const StockPage = ({ handleCancel, count, form, setItem }) => {
+const StockPage = ({
+  handleCancel,
+  count,
+  setSerialNumbers,
+  serialNumbers,
+}) => {
   const components = [];
+  const initialState = Array.from(
+    { length: count },
+    (_, index) => serialNumbers[index] || ""
+  );
 
-  const [SSID, setSSID] = useState([]);
-  const { name, image, quality, description } = form;
-  const value = [];
-  const handleChange = (itemNumber, e) => {
-    const updatedSSID = SSID.map((item) => {
-      if (item.itemNumber === itemNumber) {
-        return { ...item, ssid: e.target.value };
-      }
-      return item;
+  useEffect(() => {
+    setSerialNumbers(initialState);
+  }, []);
+
+  const handleChange = (index, e) => {
+    const newValue = e.target.value;
+    setSerialNumbers((prevSSID) => {
+      const newSSID = [...prevSSID];
+      newSSID[index - 1] = newValue;
+      return newSSID;
     });
-
-    const index = updatedSSID.findIndex(
-      (item) => item.itemNumber === itemNumber
-    );
-
-    if (index === -1) {
-      const newItem = {
-        itemNumber,
-        value: e.target.value,
-        name,
-        quantity: count,
-        image,
-        quality,
-        description,
-      };
-      setSSID((prevSSID) => [...prevSSID, newItem]);
-    } else {
-      setSSID(updatedSSID);
-    }
   };
-  const itemValues = SSID.map((item, index) => {
-    const itemv = {
-      itemNumber: index + 1,
-      value: item.value,
-    };
-    return itemv;
-  });
-  console.log(itemValues)
 
   for (let i = 0; i < count; i++) {
     components.push(
       <>
         <EuiFlexItem>
           <EuiFieldText
-            onChange={(e) => handleChange(`${i + 1}`, e)}
+            onChange={(e) => handleChange(i + 1, e)}
+            value={serialNumbers[i]}
             placeholder={`Item ${i + 1}`}
             name="SSID"
           />
@@ -77,74 +50,69 @@ const StockPage = ({ handleCancel, count, form, setItem }) => {
     );
   }
 
-function isUnique(arr) {
-  const valueOccurrences = {};
-
-  for (let obj of arr) {
-    const value = obj['ssid'];
-    console.log(value)
-    if (value in valueOccurrences) {
-      // Field value is not unique
-      return false;
-    }
-
-    valueOccurrences[value] = true;
+  function areElementsUnique(arr) {
+    const uniqueSet = new Set(arr);
+    return uniqueSet.size === arr.length;
   }
-
-  // All field values are unique
-  return true;
-}
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(isUnique(SSID)){
-      setItem(SSID);
+    serialNumbers.forEach((item) => {
+      if (!item?.length) {
+        alert("Need to fill all serial numbers");
+      }
+    });
+    if (areElementsUnique(serialNumbers)) {
+      setSerialNumbers(serialNumbers);
       handleCancel(false);
-   
-      console.log('ssid is unique')
-    }else{
-      alert('ssid should be uniquee')
 
+      console.log("ssid is unique");
+    } else {
+      return alert("ssid should be uniquee");
     }
-   
   };
 
   return (
     <>
       <div className="stockPage">
-        <EuiForm>
-          <EuiFlexGroup
-            alignItems="center"
-            justifyContent="center"
-            direction="column"
-            className="container"
-          >
-            <EuiFlexItem>
-              <EuiText size="l" color="red">
-                ENTER SSID
-              </EuiText>
-            </EuiFlexItem>
+        <EuiEmptyPrompt
+          layout="horizontal"
+          color="plain"
+          title={
+            <EuiText style={{ fontFamily: "Roboto" }} textAlign="center">
+              Enter serial Numbers
+            </EuiText>
+          }
+          actions={
+            <>
+              <EuiForm>
+                <EuiFlexGroup
+                  alignItems="center"
+                  direction="column"
+                  className="container"
+                >
+                  {components}
 
-            {components}
+                  <EuiFlexGroup>
+                    <EuiFlexItem>
+                      <EuiButton fill onClick={handleSubmit}>
+                        Submit
+                      </EuiButton>
+                    </EuiFlexItem>
 
-            <EuiFlexGroup>
-              <EuiFlexItem>
-                <EuiButton fill onClick={handleSubmit}>
-                  Submit
-                </EuiButton>
-              </EuiFlexItem>
-
-              <EuiButton
-                color="danger"
-                fill
-                onClick={() => handleCancel(false)}
-              >
-                Cancel
-              </EuiButton>
-            </EuiFlexGroup>
-          </EuiFlexGroup>
-        </EuiForm>
+                    <EuiButton
+                      color="danger"
+                      fill
+                      onClick={() => handleCancel(false)}
+                    >
+                      Cancel
+                    </EuiButton>
+                  </EuiFlexGroup>
+                </EuiFlexGroup>
+              </EuiForm>
+            </>
+          }
+        />
       </div>
     </>
   );

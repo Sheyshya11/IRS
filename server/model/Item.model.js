@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 
 const itemSchema = new mongoose.Schema(
   {
-    itemNumber: {
-      type: Number,
-      required: true,
-    },
+ 
     name: {
       type: String,
       required: true,
@@ -34,6 +31,7 @@ const itemSchema = new mongoose.Schema(
     },
     quantity: {
       type: Number,
+      default: 0,
     },
 
     quality: {
@@ -45,9 +43,19 @@ const itemSchema = new mongoose.Schema(
       ref: "User",
     },
     Status: {
+      //occupied status after approval
       type: Boolean,
       default: false,
     },
+    ReturnStatus: {
+      type: Boolean,
+      default: false,
+    },
+    userIds: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+ 
   },
   { timestamps: true }
 );

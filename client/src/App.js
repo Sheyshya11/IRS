@@ -14,19 +14,22 @@ import RequestItem from "./page/RequestItem";
 import CreatePassword from "./page/CreatePassword";
 import ItemsRequestPage from "./page/ItemsRequestPage";
 import Profile from "./page/Profile";
+import RedirectRoute from "./component/RedirectRoute";
+import RequestHistory from "./page/RequestHistory";
 
 function App() {
   return (
     <div>
-    
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route element={<RedirectRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
 
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
           </Route>
         </Route>
 
@@ -38,8 +41,7 @@ function App() {
 
             <Route path="/createPassword" element={<CreatePassword />} />
             <Route path="/itemDetails/:id" element={<ItemDetails />} />
-            <Route path="/profile" element={<Profile />} />
-
+            <Route path="/profile/:id" element={<Profile />} />
           </Route>
         </Route>
 
@@ -49,6 +51,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/createItem" element={<CreateNewItem />} />
               <Route path="/itemRequests" element={<ItemsRequestPage />} />
+              <Route path="/RequestHistory" element={<RequestHistory />} />
             </Route>
           </Route>
         </Route>

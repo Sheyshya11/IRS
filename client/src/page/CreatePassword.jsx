@@ -67,7 +67,7 @@ const CreatePassword = () => {
         console.log(response);
 
         await dispatch(logout());
-        navigate("/");
+        navigate("/login");
       } else {
         setPasswordError(true);
       }
