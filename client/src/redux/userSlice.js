@@ -7,19 +7,19 @@ const baseUrl = "http://localhost:5000";
 
 export const registerUser = createAsyncThunk(
   "user/signup",
-  async (credential,{ rejectWithValue }) => {
+  async (credential, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${baseUrl}/auth/register`, credential);
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.response.data)
+      return rejectWithValue(err.response.data);
     }
   }
 );
 
 export const loginWithGoogle = createAsyncThunk(
   "user/googlelogin",
-  async (accessToken,{ rejectWithValue }) => {
+  async (accessToken, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${baseUrl}/auth/google`,
@@ -28,16 +28,16 @@ export const loginWithGoogle = createAsyncThunk(
         },
         { withCredentials: true }
       );
-      return response.data
+      return response.data;
     } catch (err) {
-      return rejectWithValue(err.response.status)
+      return rejectWithValue(err.response.status);
     }
   }
 );
 
 export const signUpWithGoogle = createAsyncThunk(
   "user/googlesignup",
-  async (accessToken,{ rejectWithValue }) => {
+  async (accessToken, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${baseUrl}/auth/google/signup`, {
         googleAccessToken: accessToken,
@@ -46,24 +46,25 @@ export const signUpWithGoogle = createAsyncThunk(
         return response.data;
       }
     } catch (error) {
-      return rejectWithValue(error.response.data)
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
-export const loginUser = createAsyncThunk("/auth", async (credential,{ rejectWithValue }) => {
-  try {
-    const response = await axios.post(`${baseUrl}/auth`, credential, {
-      withCredentials: true,
-    });
-  
-    return response.data;
-  } catch (err) {
-    return rejectWithValue(err.response.data.msg)
+export const loginUser = createAsyncThunk(
+  "/auth",
+  async (credential, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${baseUrl}/auth`, credential, {
+        withCredentials: true,
+      });
+
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data.msg);
+    }
   }
-});
-
-
+);
 
 export const getUser = createAsyncThunk("/userinfo", async (id) => {
   try {
@@ -86,19 +87,34 @@ export const logout = createAsyncThunk("/logout", async () => {
   }
 });
 
-export const createPassword = createAsyncThunk('/createPassword',async(cred)=>{
-  try {
-    
-    const response = await axiosInstance.patch('users/createPass',cred,{
-      withCredentials: true
-    })
-    return response.data
-  } catch (error) {
-    console.log({error})
+export const createPassword = createAsyncThunk(
+  "/createPassword",
+  async (cred, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.patch("users/createPass", cred, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(err.response.data.msg);
+    }
   }
-})
+);
 
-
+export const updateUser = createAsyncThunk(
+  "/updateUser",
+  async (form, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.patch("users", form, {
+        withCredentials: true,
+      });
+     return response.data
+    } catch (error) {
+      console.log(error.response.data.msg)
+      return rejectWithValue(error.response.data.msg);
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -107,12 +123,9 @@ const userSlice = createSlice({
     error: null,
     accessToken: "",
     isLoggedin: false,
-    msg: ""
+    msg: "",
   },
-  reducers: {
- 
-
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -125,7 +138,7 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.accessToken = action.payload;
         Cookies.set("token", state.accessToken);
-        Cookies.set('passwordExists',true)
+        Cookies.set("passwordExists", true);
         state.isLoggedin = true;
       })
 
@@ -136,7 +149,6 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
-       
       })
 
       .addCase(loginWithGoogle.pending, (state) => {
@@ -144,24 +156,21 @@ const userSlice = createSlice({
         state.error = false;
       })
       .addCase(loginWithGoogle.fulfilled, (state, action) => {
-        state.accessToken = action.payload.accessToken
+        state.accessToken = action.payload.accessToken;
         Cookies.set("token", state.accessToken);
-        Cookies.set('passwordExists',action.payload.passwordExist)
+        Cookies.set("passwordExists", action.payload.passwordExist);
         state.isLoggedin = true;
       })
       .addCase(logout.fulfilled, (state, action) => {
         Cookies.remove("token");
-        Cookies.remove('passwordExists')
+        Cookies.remove("passwordExists");
         state.isLoggedin = false;
-        state.accessToken=''
-        
+        state.accessToken = "";
       })
-      .addCase(createPassword.fulfilled,(state,action)=>{
-        state.msg = action.payload.msg
-      })
-    
+      .addCase(createPassword.fulfilled, (state, action) => {
+        state.msg = action.payload.msg;
+      });
   },
 });
 
 export default userSlice.reducer;
-

@@ -98,25 +98,35 @@ module.exports.updateUser = async (req, res) => {
 
     if (userId) {
       const body = req.body;
+      console.log(body.department)
       const user = await userModel.findOne({ _id: userId }).lean();
-      const passwordCheck = await bcrypt.compare(body.oldPass, user.password);
-      if (!passwordCheck) {
-        return res.status(400).send("Password dont match");
-      }
-      const hashedPassword = await bcrypt.hash(body.newPass, 10);
-      const updateUser = await userModel.findOneAndUpdate(
-        { _id: userId },
 
-        {
-          email: body.email,
-          username: body.username,
-          password: hashedPassword,
-          department: body.department,
-        },
-        { new: true }
-      );
-      if (!updateUser) {
-        return res.status(500).send({ msg: "Error while updating" });
+      if (body.oldPass || body.newPass) {
+        const passwordCheck = await bcrypt.compare(body.oldPass, user.password);  
+        if (!passwordCheck) {
+          return res.status(400).send({msg: "Password dont match"});
+        }
+        const hashedPassword = await bcrypt.hash(body.newPass, 10);
+        body.password = hashedPassword;
+        const updateUser = await userModel.findOneAndUpdate(
+          { _id: userId },
+
+          body,
+          {new: true}
+        );
+        if (!updateUser) {
+          return res.status(500).send({ msg: "Error while updating" });
+        }
+      } else {
+        const updateUser = await userModel.findOneAndUpdate(
+          { _id: userId },
+
+          body,
+          {new: true}
+        );
+        if (!updateUser) {
+          return res.status(500).send({ msg: "Error while updating" });
+        }
       }
 
       return res.status(201).send({ msg: "Record updated successfully" });

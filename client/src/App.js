@@ -16,6 +16,7 @@ import ItemsRequestPage from "./page/ItemsRequestPage";
 import Profile from "./page/Profile";
 import RedirectRoute from "./component/RedirectRoute";
 import RequestHistory from "./page/RequestHistory";
+import Setting from "./page/Setting";
 
 function App() {
   return (
@@ -38,7 +39,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/dash" element={<Dashboard />} />
             <Route path="/requestPage/:id" element={<RequestItem />} />
-
+            <Route path="/settings" element={<Setting />} />
             <Route path="/createPassword" element={<CreatePassword />} />
             <Route path="/itemDetails/:id" element={<ItemDetails />} />
             <Route path="/profile/:id" element={<Profile />} />
@@ -51,6 +52,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/createItem" element={<CreateNewItem />} />
               <Route path="/itemRequests" element={<ItemsRequestPage />} />
+
               <Route path="/RequestHistory" element={<RequestHistory />} />
             </Route>
           </Route>
@@ -58,6 +60,7 @@ function App() {
 
         {/* Missing routes */}
         <Route path="/*" element={<Notfound />} />
+
         <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
     </div>

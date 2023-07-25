@@ -21,13 +21,14 @@ import {
   EuiFilePicker,
   EuiTextArea,
   EuiIcon,
+  EuiLoadingSpinner,
   EuiHorizontalRule,
   EuiEmptyPrompt,
 } from "@elastic/eui";
 import jwt_decode from "jwt-decode";
 import Cookie from "js-cookie";
 import { useGeneratedHtmlId } from "@elastic/eui";
-import Loading from "../component/Loading";
+import '../sass/loading.scss'
 
 const CreateNewItem = () => {
   const [email, setEmail] = useState("");
@@ -186,7 +187,15 @@ const CreateNewItem = () => {
 
   return (
     <>
-      {loading && <Loading />}
+      {loading && (
+        <div className="loading">
+          <EuiLoadingSpinner size="xxl" />
+          <EuiSpacer />
+          <div>
+            <p className="loadingName">Loading...</p>
+          </div>
+        </div>
+      )}
 
       <EuiPageTemplate restrictWidth={"75%"} grow={true}>
         <EuiPageTemplate.Header

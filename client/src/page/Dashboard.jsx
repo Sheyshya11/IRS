@@ -127,7 +127,8 @@ function Dashboard() {
                 {
                   text: "Settings",
                   onClick: () => {
-                    dispatch(setSetting());
+                    // dispatch(setSetting());
+                    navigate('/settings')
                   },
                 },
                 {
@@ -154,7 +155,8 @@ function Dashboard() {
                 {
                   text: "Settings",
                   onClick: () => {
-                    dispatch(setSetting());
+                    // dispatch(setSetting());
+                    navigate('/settings')
                   },
                 },
                 {
@@ -172,7 +174,8 @@ function Dashboard() {
         <EuiPageTemplate.Section grow={true}>
           {status.admin && (
             <>
-              <AdminDashboard />
+              <AdminDashboard 
+              />
             </>
           )}
 

@@ -4,6 +4,8 @@ var pdf = require("html-pdf");
 const pdfTemplate = require("../helper/index");
 require("dotenv").config();
 const ejs = require("ejs");
+const path = require('path')
+
 
 module.exports.sendMail = async (req, res, next) => {
   const devices = req.body.devices;
@@ -92,8 +94,13 @@ module.exports.sendMail = async (req, res, next) => {
       pass: process.env.PASSWORD,
     },
   });
+  const templatepath = path.join(process.cwd(),"views",'template.ejs')
+  const initialPath = path.join(process.cwd(),"initial_result.pdf")
+  const remainingPath = path.join(process.cwd(),"remaining_result.pdf")
+  const more_remainingPath = path.join(process.cwd(),"more_remaining_result.pdf")
   const ejsTemplate = fs.readFileSync(
-    "/home/subham/Desktop/IRS main folder/server/views/template.ejs",
+    // "/home/subham/Desktop/IRS main folder/server/views/template.ejs",
+    templatepath,
     "utf-8"
   );
 
@@ -102,27 +109,27 @@ module.exports.sendMail = async (req, res, next) => {
 
   const mailOptions = {
     from: "hello@example.com",
-    to: "subhamshrestha50@gmail.com",
+    to: `${email}`,
     subject: "Regarding Item Acquisition Process",
     html: renderedHtml,
     attachments: [
       {
         filename: "initial_result.pdf",
-        path: "/home/subham/Desktop/IRS main folder/server/initial_result.pdf",
+        path: initialPath,
         contentType: "application/pdf",
       },
       // Add the second attachment only if the second PDF is generated
       remainingDevices.length > 0
         ? {
             filename: "remaining_result.pdf",
-            path: "/home/subham/Desktop/IRS main folder/server/remaining_result.pdf",
+            path: remainingPath,
             contentType: "application/pdf",
           }
         : {},
       moreremainingDevices.length > 0
         ? {
             filename: "more_remaining_result.pdf",
-            path: "/home/subham/Desktop/IRS main folder/server/more_remaining_result.pdf",
+            path: more_remainingPath,
             contentType: "application/pdf",
           }
         : {},
@@ -139,3 +146,4 @@ module.exports.sendMail = async (req, res, next) => {
 
   next();
 };
+

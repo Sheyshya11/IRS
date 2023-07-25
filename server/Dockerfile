@@ -3,6 +3,16 @@
 FROM node:18-alpine
 WORKDIR /app
 COPY package*.json ./
+RUN apk update && apk add --no-cache wget && apk --no-cache add openssl wget && apk add ca-certificates && update-ca-certificates
+
+# Add phantomjs
+RUN wget -qO- "https://github.com/dustinblackman/phantomized/releases/download/2.1.1a/dockerized-phantomjs.tar.gz" | tar xz -C / \
+    && npm install -g phantomjs-prebuilt
+    
+# Add fonts required by phantomjs to render html correctly
+RUN apk add --update ttf-dejavu ttf-droid ttf-freefont ttf-liberation && rm -rf /var/cache/apk/*
+
+RUN echo "" > /tmp/openssl.cnf
 RUN npm install
 COPY . .
 ENV MONGODB_URL=mongodb+srv://subhamvairav:PDwIWPpPKFYkZ6Mk@cluster1.0ycej0c.mongodb.net/IRS?retryWrites=true&w=majority \

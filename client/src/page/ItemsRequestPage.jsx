@@ -20,12 +20,14 @@ import {
   EuiImage,
   EuiBadge,
   EuiCard,
+  EuiLoadingSpinner,
 } from "@elastic/eui";
 import Loading from "../component/Loading";
 import AssignSSID from "../component/AssignSSID";
 import { useNavigate, Link } from "react-router-dom";
 import { approveItemRequest } from "../redux/ItemSlice";
 import "../sass/ItemRequestPage.scss";
+import "../sass/loading.scss";
 
 const ItemsRequestPage = () => {
   const { requestedItems, allItems } = useSelector((state) => state.item);
@@ -58,7 +60,7 @@ const ItemsRequestPage = () => {
   }, [approve]);
 
   const refineEmail = (email) => {
-    console.log(email)
+    console.log(email);
     var firstChar = email.charAt(0).toUpperCase();
     var remainingChars = email.slice(1).toLowerCase();
 
@@ -81,8 +83,6 @@ const ItemsRequestPage = () => {
       return item.Status == false;
     });
 
-
-
   const handleAssign = (ssids, id, name, itemName, email, requnit, userId) => {
     if (listOfItemsAssigned[0]?.email == email || selectedItems.length == 0) {
       setAssign(true);
@@ -97,7 +97,7 @@ const ItemsRequestPage = () => {
       alert("Diff user");
     }
   };
-console.log(selectedItems)
+  console.log(selectedItems);
 
   //approve request
   const handleSubmit = async () => {
@@ -128,7 +128,6 @@ console.log(selectedItems)
       const response = await dispatch(approveItemRequest(item));
       setApproveItems(false);
       setApprove(true);
-  
 
       console.log(response);
     } catch (error) {}
@@ -148,7 +147,15 @@ console.log(selectedItems)
 
   return (
     <>
-      {loading && <Loading msg="Fetching data..." />}
+      {loading && (
+        <div className="loading">
+          <EuiLoadingSpinner size="xxl" />
+          <EuiSpacer/>
+          <div>
+            <p className="loadingName">Loading...</p>
+          </div>
+        </div>
+      )}
       <EuiPageTemplate restrictWidth={"95%"} grow={true}>
         <EuiPageTemplate.Header
           breadcrumbs={[
