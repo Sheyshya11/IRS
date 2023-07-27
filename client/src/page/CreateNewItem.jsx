@@ -29,6 +29,7 @@ import jwt_decode from "jwt-decode";
 import Cookie from "js-cookie";
 import { useGeneratedHtmlId } from "@elastic/eui";
 import '../sass/loading.scss'
+import Loading from "../component/Loading";
 
 const CreateNewItem = () => {
   const [email, setEmail] = useState("");
@@ -188,13 +189,7 @@ const CreateNewItem = () => {
   return (
     <>
       {loading && (
-        <div className="loading">
-          <EuiLoadingSpinner size="xxl" />
-          <EuiSpacer />
-          <div>
-            <p className="loadingName">Loading...</p>
-          </div>
-        </div>
+      <Loading msg="Loading..."/>
       )}
 
       <EuiPageTemplate restrictWidth={"75%"} grow={true}>

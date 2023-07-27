@@ -148,13 +148,7 @@ const ItemsRequestPage = () => {
   return (
     <>
       {loading && (
-        <div className="loading">
-          <EuiLoadingSpinner size="xxl" />
-          <EuiSpacer/>
-          <div>
-            <p className="loadingName">Loading...</p>
-          </div>
-        </div>
+             <Loading msg="Loading..."/>
       )}
       <EuiPageTemplate restrictWidth={"95%"} grow={true}>
         <EuiPageTemplate.Header

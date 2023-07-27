@@ -204,7 +204,7 @@ const Login = () => {
             <EuiLink
               color="success"
               style={{ fontFamily: "Roboto", fontWeight: "700" }}
-              href="http://localhost:3000/signup"
+              href="https://requisition.vercel.app/signup"
               external
             >
               Signup

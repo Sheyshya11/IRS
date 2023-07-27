@@ -28,6 +28,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { fetchALlItems, getCount, getItembyName } from "../redux/ItemSlice";
 import { setLoading } from "../redux/ItemSlice";
 import "../sass/loading.scss";
+import Loading from "../component/Loading";
 
 const ItemDetails = () => {
   const { id } = useParams();
@@ -163,11 +164,7 @@ const ItemDetails = () => {
         </EuiFlexGroup>
       </EuiPageTemplate.Header>
       <EuiPageTemplate.Section grow={true}>
-       {loading ?  <EuiEmptyPrompt
-          className="loading"
-          icon={<EuiLoadingSpinner size="xxl" />}
-          title={<h2>Loading...</h2>}
-        /> : (
+       {loading ?  <Loading msg="Loading..."/> : (
         <>
           <EuiEmptyPrompt
             icon={

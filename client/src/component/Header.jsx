@@ -46,7 +46,7 @@ const Header = ({ user }) => {
           {/* <EuiText className="title">INVENTORY REQUISTION SYSTEM</EuiText> */}
           <EuiLink
             className="title"
-            href="http://localhost:3000/"
+            href="https://requisition.vercel.app/"
             onClick={() => {}}
           >
             INVENTORY REQUISTION SYSTEM

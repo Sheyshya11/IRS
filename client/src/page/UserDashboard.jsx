@@ -19,6 +19,8 @@ import {
   EuiLink,
 } from "@elastic/eui";
 import "../sass/userDashboard.scss";
+import Loading from '../component/Loading'
+import Loader from '../component/Loader'
 
 const UserDashboard = ({ setFilteredItems, filteredItems, setLoad, load }) => {
   const { items, loading, itemCount, itemTaken } = useSelector(
@@ -85,18 +87,11 @@ const UserDashboard = ({ setFilteredItems, filteredItems, setLoad, load }) => {
 
       <EuiHorizontalRule margin="s" />
       {load && (
-        <EuiEmptyPrompt
-          className="loading"
-          icon={<EuiLoadingSpinner size="xl" />}
-        />
+       <Loader/>
       )}
 
       {loading ? (
-        <EuiEmptyPrompt
-          className="loading"
-          icon={<EuiLoadingSpinner size="xxl" />}
-          title={<h2>Loading...</h2>}
-        />
+       <Loading msg="Loading..."/>
       ) : (
         filteredItems.map((item, index) => (
           <EuiFlexItem grow={false} style={{ minWidth: 300 }} key={item._id}>
