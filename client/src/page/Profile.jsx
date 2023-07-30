@@ -82,25 +82,14 @@ const Profile = () => {
     },
     {
       field: "RequiredUnit",
-      name: (
-        <span>
-          <EuiIcon type="number" size="m" style={{ marginRight: "3px" }} />{" "}
-          Requested Unit
-        </span>
-      ),
+      name: "Requested Unit",
 
       sortable: true,
       truncateText: true,
- 
     },
     {
       field: "GrantedUnit",
-      name: (
-        <span>
-          <EuiIcon type="number" size="m" style={{ marginRight: "3px" }} />{" "}
-          Received Unit
-        </span>
-      ),
+      name: "Received Unit",
 
       sortable: true,
       truncateText: true,
@@ -122,12 +111,7 @@ const Profile = () => {
     // },
     {
       field: "createdAt",
-      name: (
-        <span>
-          <EuiIcon type="timeslider" size="m" style={{ marginRight: "3px" }} />{" "}
-          Requested Time
-        </span>
-      ),
+      name: "Requested Time",
       sortable: true,
       truncateText: true,
       render: (createdAt) => {
@@ -137,12 +121,7 @@ const Profile = () => {
     },
     {
       field: "updatedAt",
-      name: (
-        <span>
-          <EuiIcon type="timeslider" size="m" style={{ marginRight: "3px" }} />{" "}
-          Delivered Time
-        </span>
-      ),
+      name: "Delivered Time",
       sortable: true,
       truncateText: true,
       render: (updatedAt, createdAt) => {
@@ -167,7 +146,6 @@ const Profile = () => {
 
   return (
     <>
-
       <EuiPageTemplate restrictWidth={"75%"} grow="true">
         <EuiPageTemplate.Header
           style={{ fontFamily: "Roboto" }}
