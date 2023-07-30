@@ -3,8 +3,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import axiosInstance from "../axios/jwtInterceptor";
 
-// const baseUrl = "https://irsserver.onrender.com";
-const baseUrl = "http://localhost:5000";
+const baseUrl = "https://irsserver.onrender.com";
+// const baseUrl = "http://localhost:5000";
 
 export const registerUser = createAsyncThunk(
   "user/signup",
@@ -80,7 +80,7 @@ export const getUser = createAsyncThunk("/userinfo", async (id) => {
 export const logout = createAsyncThunk("/logout", async () => {
   try {
     const abc = "asd";
-    const response = await axios.post(`${baseUrl}/auth/logout`, abc, {
+    const response = await axiosInstance.post(`${baseUrl}/auth/logout`, abc, {
       withCredentials: true,
     });
   } catch (error) {
@@ -109,9 +109,9 @@ export const updateUser = createAsyncThunk(
       const response = await axiosInstance.patch("users", form, {
         withCredentials: true,
       });
-     return response.data
+      return response.data;
     } catch (error) {
-      console.log(error.response.data.msg)
+      console.log(error.response.data.msg);
       return rejectWithValue(error.response.data.msg);
     }
   }

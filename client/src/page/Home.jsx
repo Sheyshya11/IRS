@@ -4,6 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 import Cookie from "js-cookie";
 import jwt_decode from "jwt-decode";
 import Footer from "../component/Footer";
+import CountUp from 'react-countup';
+
 import "../sass/home.scss";
 
 import {
@@ -63,7 +65,6 @@ const Home = () => {
     }
   }, []);
 
-  console.log(user.passwordExists);
   return (
     <>
       {
@@ -113,13 +114,20 @@ const Home = () => {
           <EuiSpacer />
           <EuiFlexGroup justifyContent="spaceAround" gutterSize={0}>
             <EuiFlexItem grow={false}>
-              <EuiText className="home-number">{items.length}</EuiText>
+              <div className="home-number">
+                <CountUp start={0} end={items.length}   />   
+              </div>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className="home-number">20</EuiText>
+            <div className="home-number">
+                <CountUp start={0} end={items.length}   />   
+              </div>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className="home-number">20</EuiText>
+            <div className="home-number">
+                <CountUp start={0} end={items.length}   />   
+              </div>
+              {/* <EuiText className="home-number">{items.length}</EuiText> */}
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer />

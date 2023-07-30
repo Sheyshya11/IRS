@@ -167,7 +167,7 @@ const Profile = () => {
 
   return (
     <>
-      {loading && <Loading />}
+
       <EuiPageTemplate restrictWidth={"75%"} grow="true">
         <EuiPageTemplate.Header
           style={{ fontFamily: "Roboto" }}

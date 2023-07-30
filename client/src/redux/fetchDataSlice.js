@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../axios/jwtInterceptor";
 
-// const baseUrl = "https://irsserver.onrender.com";
-const baseUrl = "http://localhost:5000";
-
 export const getAllUser = createAsyncThunk("/users", async () => {
   try {
     const response = await axiosInstance.get("users");

@@ -2,7 +2,11 @@ import Login from "./page/Login";
 import Signup from "./page/Signup";
 import Home from "./page/Home";
 import Notfound from "./component/Notfound";
-import { Routes, Route, BrowseRouter as Router } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  BrowseRouter as Router,
+} from "react-router-dom";
 import Dashboard from "./page/Dashboard";
 import ProtectedRoute from "./component/ProtectedRoute";
 import Layout from "./component/Layout";
@@ -17,6 +21,7 @@ import Profile from "./page/Profile";
 import RedirectRoute from "./component/RedirectRoute";
 import RequestHistory from "./page/RequestHistory";
 import Setting from "./page/Setting";
+import Notification from "./page/Notification";
 
 function App() {
   return (
@@ -26,6 +31,7 @@ function App() {
         <Route element={<RedirectRoute />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/notify" element={<Notification />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>
@@ -59,9 +65,10 @@ function App() {
         </Route>
 
         {/* Missing routes */}
-        <Route path="/*" element={<Notfound />} />
-
+      
         <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="*" element={<Notfound />} />
+
       </Routes>
     </div>
   );

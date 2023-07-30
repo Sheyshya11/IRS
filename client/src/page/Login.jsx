@@ -19,6 +19,7 @@ import {
   EuiButton,
   EuiLink,
 } from "@elastic/eui";
+import Loading from "../component/Loading";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,8 @@ const Login = () => {
   const [emptyEmailError, setemptyEmailError] = useState(false);
   const [emptyPasswordError, setemptyPasswordError] = useState(false);
   const [invalidEmailError, setInvalidEmailError] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [items, setItems] = useState([]);
   let emailError, passwordError, invalidEmail;
   let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
@@ -66,7 +69,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const originalPromiseResult = await dispatch(loginUser(form)).unwrap();
+      setLoading(false);
 
       if (originalPromiseResult) {
         console.log("im logged");
@@ -91,10 +96,12 @@ const Login = () => {
   async function handleGoogleLoginSuccess(tokenResponse) {
     try {
       const accessToken = tokenResponse.access_token;
-      console.log(accessToken);
+
+      setLoading(true);
       const originalPromiseResult = await dispatch(
         loginWithGoogle(accessToken)
       ).unwrap();
+      setLoading(false);
 
       if (originalPromiseResult?.passwordExist) {
         console.log("im logged");
@@ -122,6 +129,7 @@ const Login = () => {
       alignItems="center"
       direction="column"
     >
+      {isLoading && <Loading msg="Loading..." />}
       <EuiFlexItem className="login-header" grow={false}>
         <EuiText color="#FFFFFF" className="login-text">
           LOGIN TO YOUR ACCOUNT

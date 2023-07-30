@@ -2,17 +2,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
-// const baseURL = "https://irsserver.onrender.com";
-const baseURL = "http://localhost:5000";
+const baseURL = "https://irsserver.onrender.com";
+// const baseURL = "http://localhost:5000";
 
 const accessToken = Cookies.get("token");
 
 function isTokenExpired(token) {
-  // const { exp } = jwt_decode(token);
-  // if (Date.now() >= exp * 1000) {
-
-  //   return false;
-  // }
   if (token) {
     let decodedData = jwt_decode(token, { header: true });
     let expirationDate = decodedData.exp;
