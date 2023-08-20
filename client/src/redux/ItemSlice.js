@@ -116,6 +116,75 @@ export const getCount = createAsyncThunk("/visitCount", async (name) => {
   }
 });
 
+export const getItemListByName = createAsyncThunk("/itemList", async (name) => {
+  try {
+    const response = await axiosInstance.get(`items/itemList/${name}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.log({ error });
+  }
+});
+
+export const editSSID = createAsyncThunk(
+  "/editssid",
+  async (item, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put("items/editssid", item, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
+export const deleteSSID = createAsyncThunk(
+  "/deletessid",
+  async (ssid, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete(`items/deletessid/${ssid}`, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
+export const deleteinBulk = createAsyncThunk(
+  "/deleteinBulk",
+  async (name, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete(
+        `items/deleteInBulk/${name}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data.msg);
+    }
+  }
+);
+
+export const editinBulk = createAsyncThunk(
+  "/editinBulk",
+  async (item, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`items/editInBulk`, item, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data.msg);
+    }
+  }
+);
 const itemSlice = createSlice({
   name: "Item",
   initialState: {
@@ -151,6 +220,9 @@ const itemSlice = createSlice({
 
       // Update the selected item in the state array
       state.requestedItems[selectedItemIndex] = updatedSelectedItem;
+    },
+    clearItems: (state, action) => {
+      state.items = {};
     },
   },
   extraReducers: (builder) => {
@@ -220,9 +292,12 @@ const itemSlice = createSlice({
       })
       .addCase(fetchALlItems.fulfilled, (state, action) => {
         state.itemsDetail = action.payload;
+      })
+      .addCase(getItemListByName.fulfilled, (state, action) => {
+        state.items = action.payload;
       });
   },
 });
 
 export default itemSlice.reducer;
-export const { setLoading, setItemSelected } = itemSlice.actions;
+export const { setLoading, setItemSelected, clearItems } = itemSlice.actions;

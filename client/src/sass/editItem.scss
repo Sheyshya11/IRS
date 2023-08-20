@@ -1,0 +1,11 @@
+.editPage {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+
+  //   width: 30%;
+}

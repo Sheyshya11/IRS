@@ -141,6 +141,7 @@ function Dashboard() {
                 {
                   text: "Dashboard",
                   onClick: () => {
+                    setLoad(false)
                     dispatch(setDashboard());
                   },
                 },
@@ -162,6 +163,7 @@ function Dashboard() {
                 {
                   text: "Dashboard",
                   onClick: () => {
+                    setLoad(false)
                     dispatch(setDashboard());
                   },
                 },

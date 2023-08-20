@@ -4,6 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 import Cookie from "js-cookie";
 import jwt_decode from "jwt-decode";
 import Footer from "../component/Footer";
+import CountUp from "react-countup";
+
 import "../sass/home.scss";
 
 import {
@@ -11,12 +13,8 @@ import {
   EuiFlexItem,
   EuiText,
   EuiImage,
-  EuiFieldText,
-  EuiForm,
   EuiSpacer,
-  EuiFormRow,
   EuiButton,
-  EuiLink,
 } from "@elastic/eui";
 import { setReset } from "../redux/dashboardSlice";
 import { fetchALlItems } from "../redux/ItemSlice";
@@ -63,7 +61,6 @@ const Home = () => {
     }
   }, []);
 
-  console.log(user.passwordExists);
   return (
     <>
       {
@@ -89,7 +86,7 @@ const Home = () => {
           <EuiSpacer />
           <EuiFlexGroup justifyContent="spaceAround" gutterSize={0}>
             <EuiFlexItem grow={false}>
-              <EuiImage src="1.png" alt="image1" />
+              <EuiImage width={123} height={123} src="4.png" alt="image1" />
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiImage src="2.png" alt="image2" />
@@ -113,13 +110,20 @@ const Home = () => {
           <EuiSpacer />
           <EuiFlexGroup justifyContent="spaceAround" gutterSize={0}>
             <EuiFlexItem grow={false}>
-              <EuiText className="home-number">{items.length}</EuiText>
+              <div className="home-number">
+                <CountUp start={0} end={items.length} />
+              </div>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className="home-number">20</EuiText>
+              <div className="home-number">
+                <CountUp start={0} end={items.length} />
+              </div>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiText className="home-number">20</EuiText>
+              <div className="home-number">
+                <CountUp start={0} end={items.length} />
+              </div>
+              {/* <EuiText className="home-number">{items.length}</EuiText> */}
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiSpacer />

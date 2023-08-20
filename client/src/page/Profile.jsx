@@ -11,7 +11,6 @@ import {
   EuiIcon,
 } from "@elastic/eui";
 
-import Loading from "../component/Loading";
 import { useNavigate, useParams } from "react-router-dom";
 
 import axiosInstance from "../axios/jwtInterceptor";
@@ -36,7 +35,6 @@ const Profile = () => {
   useEffect(() => {
     fetchRequestedItems();
   }, []);
-  console.log(requestedData);
 
   function formatDateWithAMPM(dateString) {
     const date = new Date(dateString);
@@ -56,7 +54,9 @@ const Profile = () => {
     const updatedAtDate = new Date(updatedAt);
 
     if (createdAtDate.getTime() === updatedAtDate.getTime()) {
-      return <span style={{ color: "gray" }}>Pending...</span>;
+      return <EuiText size="s" color="subdued">
+      Pending...
+    </EuiText>
     } else {
       const formattedDate = formatDateWithAMPM(updatedAtDate);
       return formattedDate;
@@ -82,25 +82,14 @@ const Profile = () => {
     },
     {
       field: "RequiredUnit",
-      name: (
-        <span>
-          <EuiIcon type="number" size="m" style={{ marginRight: "3px" }} />{" "}
-          Requested Unit
-        </span>
-      ),
+      name: "Requested Unit",
 
       sortable: true,
       truncateText: true,
- 
     },
     {
       field: "GrantedUnit",
-      name: (
-        <span>
-          <EuiIcon type="number" size="m" style={{ marginRight: "3px" }} />{" "}
-          Received Unit
-        </span>
-      ),
+      name: "Received Unit",
 
       sortable: true,
       truncateText: true,
@@ -122,12 +111,7 @@ const Profile = () => {
     // },
     {
       field: "createdAt",
-      name: (
-        <span>
-          <EuiIcon type="timeslider" size="m" style={{ marginRight: "3px" }} />{" "}
-          Requested Time
-        </span>
-      ),
+      name: "Requested Time",
       sortable: true,
       truncateText: true,
       render: (createdAt) => {
@@ -137,12 +121,7 @@ const Profile = () => {
     },
     {
       field: "updatedAt",
-      name: (
-        <span>
-          <EuiIcon type="timeslider" size="m" style={{ marginRight: "3px" }} />{" "}
-          Delivered Time
-        </span>
-      ),
+      name: "Delivered Time",
       sortable: true,
       truncateText: true,
       render: (updatedAt, createdAt) => {
@@ -151,6 +130,26 @@ const Profile = () => {
           updatedAt
         );
         return <span>{renderedDate}</span>;
+      },
+    },
+    {
+      name: "Status",
+      field: "Status",
+      sortable: true,
+      truncateText: true,
+      render: (Status) => {
+        if (Status) {
+          return (
+            <EuiText size="s" color="success">
+              Granted
+            </EuiText>
+          );
+        }
+        return (
+          <EuiText size="s" color="subdued">
+            Pending
+          </EuiText>
+        );
       },
     },
   ];
@@ -167,7 +166,6 @@ const Profile = () => {
 
   return (
     <>
-      {loading && <Loading />}
       <EuiPageTemplate restrictWidth={"75%"} grow="true">
         <EuiPageTemplate.Header
           style={{ fontFamily: "Roboto" }}

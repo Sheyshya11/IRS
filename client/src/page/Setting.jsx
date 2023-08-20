@@ -24,9 +24,11 @@ import { ToastContainer } from "react-toastify";
 import Loading from "../component/Loading";
 
 const Setting = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
+
   const options = [
     {
       text: "SOC",
@@ -71,6 +73,22 @@ const Setting = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const token = Cookies.get("token");
+    const data = jwtDecode(token);
+    if (
+      form.department !== data.department ||
+      form.email ||
+      form.username ||
+      form.oldPass ||
+      form.newPass
+    ) {
+      setIsEdited(true);
+    } else {
+      setIsEdited(false);
+    }
+  }, [form]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -81,16 +99,18 @@ const Setting = () => {
         result[key] = form[key];
       }
     }
-    console.log(result);
 
     try {
-      setLoading(true)
-      const response = await dispatch(updateUser(result)).unwrap();
-      setLoading(false)
-     if(response){
-      console.log("submitted");
-     }
-     
+      if (isEdited) {
+        setLoading(true);
+        const response = await dispatch(updateUser(result)).unwrap();
+        setLoading(false);
+        if (response) {
+          console.log("submitted");
+        }
+      } else {
+        alert("Update atleast one field");
+      }
     } catch (rejectedValueOrSerializedError) {
       notify(rejectedValueOrSerializedError);
     }
@@ -111,7 +131,7 @@ const Setting = () => {
         rightSideItems={customButtons}
         bottomBorder="extended"
       >
-        {loading && <Loading msg="Re-login to see the changes."/>}
+        {loading && <Loading msg="Re-login to see the changes." />}
         <EuiFlexGroup alignItems="center">
           <EuiFlexItem grow={false}>
             <EuiIcon type="indexEdit" size="xl" />
@@ -181,7 +201,7 @@ const Setting = () => {
             </EuiForm>
           </EuiFlexItem>
         </EuiFlexGroup>
-        <ToastContainer/>
+        <ToastContainer />
       </EuiPageTemplate.Section>
     </EuiPageTemplate>
   );

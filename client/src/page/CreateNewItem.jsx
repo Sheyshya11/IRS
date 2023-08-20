@@ -28,7 +28,7 @@ import {
 import jwt_decode from "jwt-decode";
 import Cookie from "js-cookie";
 import { useGeneratedHtmlId } from "@elastic/eui";
-import '../sass/loading.scss'
+import "../sass/loading.scss";
 
 const CreateNewItem = () => {
   const [email, setEmail] = useState("");
@@ -253,7 +253,7 @@ const CreateNewItem = () => {
                   />
                 </EuiFormRow>
               </EuiFlexItem>
-
+              {/* 
               <EuiFlexItem>
                 <EuiFormRow label="Quality">
                   <EuiSelect
@@ -264,7 +264,7 @@ const CreateNewItem = () => {
                     aria-label="Use aria labels when no actual label is in use"
                   />
                 </EuiFormRow>
-              </EuiFlexItem>
+              </EuiFlexItem> */}
               <EuiFlexItem>
                 <EuiFormRow label="Supplier">
                   <EuiFieldText

@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const Unauthorized = () => {
   return (
     <>
-      <div>Unauthorized</div>
+      <div>Sorry Unauthorized</div>
     </>
   );
 };

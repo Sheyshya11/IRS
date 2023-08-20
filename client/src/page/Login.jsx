@@ -117,102 +117,110 @@ const Login = () => {
 
   return (
     <EuiFlexGroup
-      className="login-container"
+      style={{ height: "100vh" }}
       justifyContent="center"
       alignItems="center"
       direction="column"
     >
-      <EuiFlexItem className="login-header" grow={false}>
-        <EuiText color="#FFFFFF" className="login-text">
-          LOGIN TO YOUR ACCOUNT
-        </EuiText>
-      </EuiFlexItem>
-      <EuiFlexItem>
-        <EuiImage
-          className="login-image"
-          src="/login-image.png"
-          alt="Login image"
-        />
-      </EuiFlexItem>
-
-      <EuiForm component="form" autoComplete="off" onSubmit={handleSubmit}>
-        <EuiFlexItem>
-          <EuiFormRow
-            isInvalid={emptyEmailError || invalidEmailError}
-            error={emailError || invalidEmail}
-          >
-            <input
-              className="email-text"
-              placeholder="EMAIL"
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={(e) => handleFormFieldChange("email", e)}
-            />
-          </EuiFormRow>
-        </EuiFlexItem>
-        <EuiSpacer />
-
-        <EuiFlexItem>
-          <EuiFormRow isInvalid={emptyPasswordError} error={passwordError}>
-            <input
-              className="email-text"
-              placeholder="PASSWORD"
-              name="password"
-              type="password"
-              value={form.password}
-              onChange={(e) => handleFormFieldChange("password", e)}
-            />
-          </EuiFormRow>
-        </EuiFlexItem>
-        <EuiFlexItem className="forgot-pass">
-          <EuiText size="s">
-            <EuiLink
-              color="text"
-              style={{ fontFamily: "Roboto", fontWeight: "700" }}
-              href="http://www.elastic.co"
-              external
-            >
-              Forgot Password?
-            </EuiLink>
-          </EuiText>
-        </EuiFlexItem>
-        <EuiSpacer />
-
-        <EuiFlexItem className="">
-          <EuiButton className="login-btn" size="s" type="submit">
-            LOGIN
-          </EuiButton>
-        </EuiFlexItem>
-      </EuiForm>
-
-      <EuiFlexItem className="" grow={false}>
-        <EuiText style={{ fontWeight: "500" }}>Or Login Using </EuiText>
-      </EuiFlexItem>
       <EuiFlexItem grow={false}>
-        <EuiButton className="google-login-button" onClick={() => login()}>
-          Continue With Google
-        </EuiButton>
-      </EuiFlexItem>
+        <EuiFlexGroup
+          alignItems="center"
+          className="login-container"
+          direction="column"
+        >
+          <EuiFlexItem className="login-header" grow={false}>
+            <EuiText color="#FFFFFF" className="login-text">
+              LOGIN TO YOUR ACCOUNT
+            </EuiText>
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <EuiImage
+              className="login-image"
+              src="/login-image.png"
+              alt="Login image"
+            />
+          </EuiFlexItem>
 
-      <EuiFlexGroup direction="row" className="no-account" gutterSize={0}>
-        <EuiFlexItem grow={false}>
-          <EuiText>No Account?</EuiText>
-        </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          <EuiText size="s">
-            <EuiLink
-              color="success"
-              style={{ fontFamily: "Roboto", fontWeight: "700" }}
-              href="http://localhost:3000/signup"
-              external
-            >
-              Signup
-            </EuiLink>
-          </EuiText>
-          <ToastContainer />
-        </EuiFlexItem>
-      </EuiFlexGroup>
+          <EuiForm component="form" autoComplete="off" onSubmit={handleSubmit}>
+            <EuiFlexItem>
+              <EuiFormRow
+                isInvalid={emptyEmailError || invalidEmailError}
+                error={emailError || invalidEmail}
+              >
+                <input
+                  className="email-text"
+                  placeholder="EMAIL"
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => handleFormFieldChange("email", e)}
+                />
+              </EuiFormRow>
+            </EuiFlexItem>
+            <EuiSpacer />
+
+            <EuiFlexItem>
+              <EuiFormRow isInvalid={emptyPasswordError} error={passwordError}>
+                <input
+                  className="email-text"
+                  placeholder="PASSWORD"
+                  name="password"
+                  type="password"
+                  value={form.password}
+                  onChange={(e) => handleFormFieldChange("password", e)}
+                />
+              </EuiFormRow>
+            </EuiFlexItem>
+            <EuiFlexItem className="forgot-pass">
+              <EuiText size="s">
+                <EuiLink
+                  color="text"
+                  style={{ fontFamily: "Roboto", fontWeight: "700" }}
+                  href="http://www.elastic.co"
+                  external
+                >
+                  Forgot Password?
+                </EuiLink>
+              </EuiText>
+            </EuiFlexItem>
+            <EuiSpacer />
+
+            <EuiFlexItem className="">
+              <EuiButton className="login-btn" size="s" type="submit">
+                LOGIN
+              </EuiButton>
+            </EuiFlexItem>
+          </EuiForm>
+
+          <EuiFlexItem className="" grow={false}>
+            <EuiText style={{ fontWeight: "500" }}>Or Login Using </EuiText>
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <EuiButton className="google-login-button" onClick={() => login()}>
+              Continue With Google
+            </EuiButton>
+          </EuiFlexItem>
+
+          <EuiFlexGroup direction="row" className="no-account" gutterSize={0}>
+            <EuiFlexItem grow={false}>
+              <EuiText>No Account?</EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiText size="s">
+                <EuiLink
+                  color="success"
+                  style={{ fontFamily: "Roboto", fontWeight: "700" }}
+                  href="http://localhost:3000/signup"
+                  external
+                >
+                  Signup
+                </EuiLink>
+              </EuiText>
+              <ToastContainer />
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </EuiFlexGroup>
+      </EuiFlexItem>
     </EuiFlexGroup>
   );
 };

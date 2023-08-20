@@ -66,7 +66,7 @@ const RequestHistory = () => {
       truncateText: true,
     },
     {
-      field: "userIds",
+      field: "userIds.username",
       name: "Current Holder ",
       sortable: true,
       truncateText: true,

@@ -1,11 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  EuiEmptyPrompt,
-  EuiImage,
-  EuiButton,
-  EuiButtonEmpty,
-} from "@elastic/eui";
+import { EuiEmptyPrompt, EuiButton, EuiButtonEmpty } from "@elastic/eui";
 
 export default () => {
   const navigate = useNavigate();

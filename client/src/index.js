@@ -9,7 +9,6 @@ import store from "./redux/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import "@elastic/eui/dist/eui_theme_light.css";
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -19,7 +18,6 @@ root.render(
           <EuiProvider>
             <Routes>
               <Route path="/*" element={<App />} />
-           
             </Routes>
           </EuiProvider>
         </GoogleOAuthProvider>

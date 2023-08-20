@@ -1,22 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
+  EuiBadge,
+  EuiCallOut,
+  EuiCard,
+  EuiEmptyPrompt,
+  EuiFieldSearch,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiText,
-  EuiButton,
   EuiHorizontalRule,
-  EuiCard,
-  EuiFieldSearch,
-  EuiBadge,
-  EuiEmptyPrompt,
-  EuiSpacer,
   EuiLoadingSpinner,
-  EuiNotificationBadge,
-  EuiCallOut,
-  EuiLink,
+  EuiSpacer,
+  EuiText,
 } from "@elastic/eui";
 import "../sass/userDashboard.scss";
 
@@ -95,7 +92,6 @@ const UserDashboard = ({ setFilteredItems, filteredItems, setLoad, load }) => {
         <EuiEmptyPrompt
           className="loading"
           icon={<EuiLoadingSpinner size="xxl" />}
-          title={<h2>Loading...</h2>}
         />
       ) : (
         filteredItems.map((item, index) => (

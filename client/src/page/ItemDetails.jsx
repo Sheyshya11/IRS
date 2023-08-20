@@ -20,12 +20,26 @@ import {
   EuiSplitPanel,
   EuiCode,
   EuiLoadingSpinner,
+  EuiCallOut,
+  EuiBadge,
+  EuiCard,
+  EuiButtonIcon,
+  EuiContextMenuPanel,
+  EuiContextMenuItem,
+  EuiPopover,
+  useGeneratedHtmlId,
 } from "@elastic/eui";
+
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
-import { fetchALlItems, getCount, getItembyName } from "../redux/ItemSlice";
+import {
+  clearItems,
+  fetchALlItems,
+  getCount,
+  getItembyName,
+} from "../redux/ItemSlice";
 import { setLoading } from "../redux/ItemSlice";
 import "../sass/loading.scss";
 
@@ -72,17 +86,23 @@ const ItemDetails = () => {
     setIsAdmin(false);
   };
 
+  //edit
+  const handleEditNavigate = (name) => {
+    navigate(`/edit/${name}`, { state: { name } });
+  };
+
   //fetch items info
   const getItems = async () => {
     try {
-      dispatch(setLoading(true))
+      dispatch(setLoading(true));
       await dispatch(fetchALlItems());
-      dispatch(setLoading(false))
+      dispatch(setLoading(false));
     } catch (error) {
       console.log({ error });
     }
   };
 
+  console.log(item);
   const getUserDetail = () => {
     try {
       setDecodedUser(user);
@@ -143,6 +163,12 @@ const ItemDetails = () => {
   const pageTitleProps = {
     style: { fontFamily: "Roboto", fontSize: "32px" },
   };
+  const capitalizeItemNameFirstChar = (username) => {
+    var firstChar = username.charAt(0).toUpperCase();
+    var remainingChars = username.slice(1);
+
+    return firstChar + remainingChars;
+  };
 
   return (
     <EuiPageTemplate>
@@ -163,243 +189,223 @@ const ItemDetails = () => {
         </EuiFlexGroup>
       </EuiPageTemplate.Header>
       <EuiPageTemplate.Section grow={true}>
-       {loading ?  <EuiEmptyPrompt
-          className="loading"
-          icon={<EuiLoadingSpinner size="xxl" />}
-          title={<h2>Loading...</h2>}
-        /> : (
-        <>
+        {loading ? (
           <EuiEmptyPrompt
-            icon={
-              <EuiImage
-                size="fullWidth"
-                src={item[0]?.image?.url}
-                alt="Image1"
-              />
-            }
-            title={<h2>Get your preferred item.</h2>}
-            layout="horizontal"
-            color="plain"
-            body={
-              <>
-                <p>
-                  {item[0]?.name} is a high-quality, versatile, and reliable
-                  designed to cater to your specific needs. Whether you're a
-                  professional or a hobbyist, this product is engineered to
-                  deliver exceptional performance and exceed your expectations.
-                </p>
-                <p>{item[0]?.description}</p>
-              </>
-            }
-            actions={[
-              <EuiButton
-                disabled={state?.available > 0 ? false : true}
-                onClick={handleRequest}
-                fill
-                color="primary"
-              >
-                Request
-              </EuiButton>,
-              isAdmin && (
-                <EuiButton fill color="primary">
-                  Edit
-                </EuiButton>
-              ),
-            ]}
+            className="loading"
+            icon={<EuiLoadingSpinner size="xxl" />}
           />
-          <EuiSpacer />
-          <EuiHorizontalRule />
-          <EuiSpacer />
-          <div>
+        ) : (
+          <>
             <EuiFlexGroup>
               <EuiFlexItem>
-                <EuiPanel hasBorder={true}>
-                  <EuiFlexGroup>
-                    <EuiFlexItem>
-                      <EuiStat
-                        title={pendingRequest.length}
-                        textAlign="left"
-                        isLoading={isLoading}
-                        titleColor="accent"
-                        description={
-                          <EuiTextColor color="accent">
-                            <span>
-                              <EuiIcon type="clock" color="accent" />{" "}
-                              {!isLoading && pendingRequest.length > 0
-                                ? (pendingRequest.length /
-                                    requestedItems.length) *
-                                  100
-                                : 0}
-                              %
-                            </span>
-                          </EuiTextColor>
-                        }
+                <EuiEmptyPrompt
+                  icon={
+                    <EuiImage
+                      size="fullWidth"
+                      src={item[0]?.image?.url}
+                      alt="Image1"
+                    />
+                  }
+                  title={<h2>Get your preferred item.</h2>}
+                  layout="horizontal"
+                  color="plain"
+                  paddingSize="l"
+                  body={
+                    <>
+                      <p>
+                        {item[0]?.name} is a high-quality, versatile, and
+                        reliable designed to cater to your specific needs.
+                        Whether you're a professional or a hobbyist, this
+                        product is engineered to deliver exceptional performance
+                        and exceed your expectations.
+                      </p>
+                      <p>{item[0]?.description}</p>
+                    </>
+                  }
+                  actions={[
+                    <EuiButton
+                      disabled={state?.available > 0 ? false : true}
+                      onClick={handleRequest}
+                      fill
+                      color="primary"
+                    >
+                      Request
+                    </EuiButton>,
+                    isAdmin && (
+                      <EuiButton
+                        onClick={() => handleEditNavigate(item[0]?.name)}
+                        fill
+                        color="primary"
                       >
-                        Pending Requests
-                      </EuiStat>
-                    </EuiFlexItem>
-                    <EuiFlexItem>
-                      <EuiStat
-                        title={grantedRequest.length}
-                        textAlign="right"
-                        isLoading={isLoading}
-                        titleColor="success"
-                        description={
-                          <EuiTextColor color="success">
-                            <span>
-                              <EuiIcon type="check" color="success" />
-                              {!isLoading && grantedRequest.length > 0
-                                ? (grantedRequest.length /
-                                    requestedItems.length) *
-                                  100
-                                : 0}
-                              %
-                            </span>
-                          </EuiTextColor>
-                        }
-                      >
-                        Granted
-                      </EuiStat>
-                    </EuiFlexItem>
-                  </EuiFlexGroup>
-                </EuiPanel>
+                        Edit
+                      </EuiButton>
+                    ),
+                  ]}
+                />
               </EuiFlexItem>
-              <EuiFlexItem>
-                <EuiPanel hasBorder={true}>
-                  <EuiFlexGroup alignItems="center">
-                    <EuiFlexItem>
-                      <EuiStat
-                        title={requestedItems.length}
-                        textAlign="left"
-                        isLoading={isLoading}
-                        description={
-                          <EuiTextColor color="success">
-                            <span>
-                              <EuiIcon type="tokenTokenCount" color="success" />
-                            </span>
-                          </EuiTextColor>
-                        }
-                      >
-                        Total Requests
-                      </EuiStat>
-                    </EuiFlexItem>
-                    <EuiFlexItem>
-                      <EuiStat
-                        title={visitCount}
-                        textAlign="right"
-                        isLoading={isLoading}
-                        titleColor="success"
-                        description={
-                          <EuiTextColor color="success">
-                            <span>
-                              <EuiIcon type="faceHappy" color="success" />
-                            </span>
-                          </EuiTextColor>
-                        }
-                      >
-                        Visit count
-                      </EuiStat>
-                    </EuiFlexItem>
-                  </EuiFlexGroup>
-                </EuiPanel>
-              </EuiFlexItem>
-              {/* <EuiFlexItem>
+            </EuiFlexGroup>
+            <EuiSpacer />
+            <EuiHorizontalRule />
+            <EuiSpacer />
+
+            <div>
+              <EuiFlexGroup>
+                <EuiFlexItem>
                   <EuiPanel hasBorder={true}>
                     <EuiFlexGroup>
                       <EuiFlexItem>
                         <EuiStat
-                          title="1,554"
+                          title={pendingRequest.length}
                           textAlign="left"
                           isLoading={isLoading}
-                          titleColor="danger"
-                          description="Good news"
+                          titleColor="accent"
+                          description={
+                            <EuiTextColor color="accent">
+                              <span>
+                                <EuiIcon type="clock" color="accent" />{" "}
+                                {!isLoading && pendingRequest.length > 0
+                                  ? (pendingRequest.length /
+                                      requestedItems.length) *
+                                    100
+                                  : 0}
+                                %
+                              </span>
+                            </EuiTextColor>
+                          }
                         >
-                          <EuiTextColor color="accent">
-                            <span>
-                              <EuiIcon type="error" color="danger" /> 66,55%
-                            </span>
-                          </EuiTextColor>
+                          Pending Requests
                         </EuiStat>
                       </EuiFlexItem>
                       <EuiFlexItem>
                         <EuiStat
-                          title="8,888"
-                          description="Great news"
-                          textAlign="left"
+                          title={grantedRequest.length}
+                          textAlign="right"
                           isLoading={isLoading}
+                          titleColor="success"
+                          description={
+                            <EuiTextColor color="success">
+                              <span>
+                                <EuiIcon type="check" color="success" />
+                                {!isLoading && grantedRequest.length > 0
+                                  ? (grantedRequest.length /
+                                      requestedItems.length) *
+                                    100
+                                  : 0}
+                                %
+                              </span>
+                            </EuiTextColor>
+                          }
                         >
-                          <EuiTextColor color="success">
-                            <span>
-                              <EuiIcon type="sortUp" /> 27,83%
-                            </span>
-                          </EuiTextColor>
+                          Granted
                         </EuiStat>
                       </EuiFlexItem>
                     </EuiFlexGroup>
                   </EuiPanel>
-                </EuiFlexItem> */}
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <EuiPanel hasBorder={true}>
+                    <EuiFlexGroup alignItems="center">
+                      <EuiFlexItem>
+                        <EuiStat
+                          title={requestedItems.length}
+                          textAlign="left"
+                          isLoading={isLoading}
+                          description={
+                            <EuiTextColor color="success">
+                              <span>
+                                <EuiIcon
+                                  type="tokenTokenCount"
+                                  color="success"
+                                />
+                              </span>
+                            </EuiTextColor>
+                          }
+                        >
+                          Total Requests
+                        </EuiStat>
+                      </EuiFlexItem>
+                      <EuiFlexItem>
+                        <EuiStat
+                          title={visitCount}
+                          textAlign="right"
+                          isLoading={isLoading}
+                          titleColor="success"
+                          description={
+                            <EuiTextColor color="success">
+                              <span>
+                                <EuiIcon type="faceHappy" color="success" />
+                              </span>
+                            </EuiTextColor>
+                          }
+                        >
+                          Visit count
+                        </EuiStat>
+                      </EuiFlexItem>
+                    </EuiFlexGroup>
+                  </EuiPanel>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+              <EuiSpacer />
+              <EuiSpacer />
+              <EuiSwitch
+                label="Show as loading"
+                checked={isLoading}
+                onChange={onToggleChange}
+              />
+            </div>
+            <EuiSpacer />
+            <EuiSpacer />
+            <EuiFlexGroup gutterSize="l">
+              <EuiFlexItem>
+                <EuiPanel
+                  grow={true}
+                  color="subdued"
+                  style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.15)" }}
+                >
+                  <EuiFlexGroup alignItems="center" direction="column">
+                    <EuiFlexItem>
+                      <EuiImage size="s" src="/stock.png" />
+                    </EuiFlexItem>
+                    <EuiFlexItem>
+                      <EuiText
+                        color="subdued"
+                        style={{
+                          fontSize: "18px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        Stock : {state?.count}
+                      </EuiText>
+                    </EuiFlexItem>
+                  </EuiFlexGroup>
+                </EuiPanel>
+              </EuiFlexItem>
+              <EuiFlexItem>
+                <EuiPanel
+                  grow={true}
+                  color="subdued"
+                  style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.15)" }}
+                >
+                  <EuiFlexGroup alignItems="center" direction="column">
+                    <EuiFlexItem>
+                      <EuiImage size="s" src="/approvedRequest.png" />
+                    </EuiFlexItem>
+                    <EuiFlexItem>
+                      <EuiText
+                        color="subdued"
+                        style={{
+                          fontSize: "18px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        Available : {state?.available}
+                      </EuiText>
+                    </EuiFlexItem>
+                  </EuiFlexGroup>
+                </EuiPanel>
+              </EuiFlexItem>
             </EuiFlexGroup>
-            <EuiSpacer />
-            <EuiSpacer />
-            <EuiSwitch
-              label="Show as loading"
-              checked={isLoading}
-              onChange={onToggleChange}
-            />
-          </div>
-          <EuiSpacer />
-          <EuiSpacer />
-          <EuiFlexGroup gutterSize="l">
-            <EuiFlexItem>
-              <EuiPanel
-                grow={true}
-                color="subdued"
-                style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.15)" }}
-              >
-                <EuiFlexGroup alignItems="center" direction="column">
-                  <EuiFlexItem>
-                    <EuiImage size="s" src="/stock.png" />
-                  </EuiFlexItem>
-                  <EuiFlexItem>
-                    <EuiText
-                      color="subdued"
-                      style={{
-                        fontSize: "18px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Stock : {state?.count}
-                    </EuiText>
-                  </EuiFlexItem>
-                </EuiFlexGroup>
-              </EuiPanel>
-            </EuiFlexItem>
-            <EuiFlexItem>
-              <EuiPanel
-                grow={true}
-                color="subdued"
-                style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.15)" }}
-              >
-                <EuiFlexGroup alignItems="center" direction="column">
-                  <EuiFlexItem>
-                    <EuiImage size="s" src="/approvedRequest.png" />
-                  </EuiFlexItem>
-                  <EuiFlexItem>
-                    <EuiText
-                      color="subdued"
-                      style={{
-                        fontSize: "18px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Available : {state?.available}
-                    </EuiText>
-                  </EuiFlexItem>
-                </EuiFlexGroup>
-              </EuiPanel>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        </>
+          </>
         )}
       </EuiPageTemplate.Section>
     </EuiPageTemplate>
